@@ -51,10 +51,11 @@ body {
     flex-wrap: wrap;
     background-color: white;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-    padding: 1em;
+    padding: 1.4em;
     border-radius: 5px;
     position: relative;
     padding-top: 2em;
+    padding-bottom: 0.4em;
     margin-bottom: 3em;
 }
 

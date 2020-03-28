@@ -1,3 +1,5 @@
+const jobListings = document.getElementById("job-listings");
+
 function getDataFromAPI() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -155,7 +157,58 @@ function getDataFromAPI() {
 }
 
 function renderJobListings(listings) {
-  console.log(listings);
+  jobListings.innerHTML = listings
+    .map(
+      listing => `<div class="job-listing${
+        listing.featured ? " featured" : ""
+      }">
+      <header>
+        <img src="${listing.logo}" alt="${
+        listing.company
+      }'s logo" class="company-logo" />
+        <div class="listing-details">
+          <span class="company-name">${listing.company}</span>
+          <div class="listing-types">
+            ${
+              listing.new ? `<div class="new listing-type pill">NEW!</div>` : ""
+            }
+            ${
+              listing.featured
+                ? `<div class="featured listing-type pill">FEATURED</div>`
+                : ""
+            }
+          </div>
+        </div>
+        <div class="position">
+          <div class="title">${listing.position}</div>
+          <div class="details">
+            <div class="detail posted-at">${listing.postedAt}</div>
+            <div class="detail contract">${listing.contract}</div>
+            <div class="location">${listing.location}</div>
+          </div>
+        </div>
+      </header>
+      <footer class="tags">
+      <a class="tag" href="#0">${listing.role}</a>
+      <a class="tag" href="#0">${listing.level}</a>
+      ${
+        listing.languages
+          ? listing.languages
+              .map(lang => `<a class="tag" href="#0">${lang}</a>`)
+              .join("")
+          : ""
+      }  
+      ${
+        listing.tools
+          ? listing.tools
+              .map(tool => `<a class="tag" href="#0">${tool}</a>`)
+              .join("")
+          : ""
+      }
+      </footer>
+    </div>`
+    )
+    .join("");
 }
 
 getDataFromAPI().then(renderJobListings);
