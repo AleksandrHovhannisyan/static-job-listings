@@ -186,6 +186,7 @@ function renderJobListings(listings) {
           </div>
         </div>
       </header>
+      <hr>
       <footer class="tags">
       <a class="tag" href="#0">${listing.role}</a>
       <a class="tag" href="#0">${listing.level}</a>

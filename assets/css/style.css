@@ -50,7 +50,7 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
     background-color: white;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px 0 rgba(0, 91, 114, 0.1);
     padding: 1.4em;
     border-radius: 5px;
     position: relative;
@@ -135,12 +135,17 @@ body {
     margin-right: 0.5em;
 }
 
+.job-listing hr {
+    border: 1px solid;
+    background-color: hsl(0, 0%, 90%);
+    border-color: hsl(0, 0%, 90%);
+}
+
 .job-listing .tags {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     padding-top: 1em;;
-    border-top: 1.2px solid hsl(0, 0%, 90%);
 }
 
 .job-listing .tags .tag {
