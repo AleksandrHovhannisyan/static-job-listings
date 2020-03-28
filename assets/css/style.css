@@ -40,15 +40,22 @@ body {
     margin-bottom: 3.4em;
 }
 
+.wrapper {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #job-listings {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 1440px;
 }
 
 #job-listings .job-listing {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: space-between;
     background-color: white;
     box-shadow: 0 10px 20px 0 rgba(0, 91, 114, 0.1);
     padding: 1.4em;
@@ -57,6 +64,20 @@ body {
     padding-top: 2em;
     padding-bottom: 0.4em;
     margin-bottom: 3em;
+}
+
+@media screen and (min-width: 1440px) {
+    #banner {
+        background-image: url("../img/bg-header-desktop.svg");
+    }
+
+    #job-listings .job-listing {
+        flex-direction: row;
+    }
+
+    #job-listings .job-listing hr {
+        display: none;
+    }
 }
 
 .job-listing.featured {
@@ -133,6 +154,14 @@ body {
     content: "•";
     margin-left: 0.25em;
     margin-right: 0.25em;
+}
+
+@media screen and (min-width: 390px) {
+    .job-listing .position .details .detail:not(:last-child)::after {
+        content: "•";
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
 }
 
 .job-listing hr {
