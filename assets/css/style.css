@@ -20,12 +20,14 @@
 }
 
 html {
-    font-size: 15px;
+    font-size: 16px;
     font-family: Spartan;
+    line-height: 1.6;
 }
 
 body {
     background-color: var(--light-grayish-cyan-bg);
+    font-weight: 500;
 }
 
 #banner {
@@ -35,26 +37,37 @@ body {
     background-color: var(--primary);
     background-position: center;
     height: 156px;
+    margin-bottom: 3.4em;
 }
 
-.job-listing {
+#job-listings {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+#job-listings .job-listing {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
     padding: 1em;
     border-radius: 5px;
     position: relative;
-    padding-top: 3em;
+    padding-top: 2em;
+    margin-bottom: 3em;
+}
+
+.job-listing.featured {
+    border-left: solid 6px var(--primary);
 }
 
 .job-listing .company-logo {
     position: absolute;
-    width: 4em;
-    height: 4em;
-    top: -2em;
-    left: 2em;
+    width: 3.4em;
+    height: 3.4em;
+    top: -1.7em;
+    left: 1em;
 }
 
 .job-listing .listing-details {
@@ -76,10 +89,12 @@ body {
 }
 
 .listing-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 0.5em;
     font-weight: 700;
     font-size: 0.8em;
-    height: 2.4em;
 }
 
 .listing-type.new,
@@ -97,7 +112,59 @@ body {
 
 .pill {
     border-radius: 1.5em;
-    padding: 0.8em;
+    padding: 0.6em;
+}
+
+.job-listing .position {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.job-listing .position .title {
+    font-weight: 700;
+    margin-bottom: 1em;
+}
+
+.job-listing .position .details {
+    display: flex;
+    color: var(--dark-grayish-cyan);
+}
+
+.job-listing .position .details .detail::after {
+    content: "•";
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.job-listing .tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 1em;;
+    border-top: 1.2px solid hsl(0, 0%, 90%);
+}
+
+.job-listing .tags .tag {
+    margin-right: 1em;
+    margin-bottom: 1em;
+    background-color: var(--light-grayish-cyan-tags);
+    color: var(--primary);
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 0.5em;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job-listing .tags .tag:hover,
+.job-listing .tags .tag:focus {
+    color: white;
+    background-color: var(--primary);
 }
 
 .attribution {
