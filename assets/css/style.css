@@ -24,6 +24,29 @@ html {
     font-family: Spartan;
 }
 
+body {
+    background-color: var(--light-grayish-cyan-bg);
+}
+
+#banner {
+    background-image: url("../img/bg-header-mobile.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: var(--primary);
+    background-position: center;
+    height: 156px;
+}
+
+.job-listing {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 1em;
+    border-radius: 5px;
+}
+
 .attribution {
   font-size: 11px;
   text-align: center;
