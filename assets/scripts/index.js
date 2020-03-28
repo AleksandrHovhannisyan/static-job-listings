@@ -182,7 +182,7 @@ function renderJobListings(listings) {
           <div class="details">
             <div class="detail posted-at">${listing.postedAt}</div>
             <div class="detail contract">${listing.contract}</div>
-            <div class="location">${listing.location}</div>
+            <div class="detail location">${listing.location}</div>
           </div>
         </div>
       </header>

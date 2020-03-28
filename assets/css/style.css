@@ -129,10 +129,10 @@ body {
     color: var(--dark-grayish-cyan);
 }
 
-.job-listing .position .details .detail::after {
+.job-listing .position .details .detail:not(:last-child)::after {
     content: "•";
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
 }
 
 .job-listing hr {
