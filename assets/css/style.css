@@ -85,14 +85,11 @@ body {
 }
 
 .job-listing .listing-details .listing-types {
-    flex: 1;
     display: flex;
+    list-style-type: none;
 }
 
 .listing-type {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-right: 0.5em;
     font-weight: 700;
     font-size: 0.8em;

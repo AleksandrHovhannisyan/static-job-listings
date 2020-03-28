@@ -168,16 +168,14 @@ function renderJobListings(listings) {
       }'s logo" class="company-logo" />
         <div class="listing-details">
           <span class="company-name">${listing.company}</span>
-          <div class="listing-types">
-            ${
-              listing.new ? `<div class="new listing-type pill">NEW!</div>` : ""
-            }
+          <ul class="listing-types">
+            ${listing.new ? `<li class="new listing-type pill">NEW!</li>` : ""}
             ${
               listing.featured
-                ? `<div class="featured listing-type pill">FEATURED</div>`
+                ? `<li class="featured listing-type pill">FEATURED</li>`
                 : ""
             }
-          </div>
+          </ul>
         </div>
         <div class="position">
           <div class="title">${listing.position}</div>
