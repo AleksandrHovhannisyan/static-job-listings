@@ -69,12 +69,39 @@ body {
     color: var(--primary);
     font-weight: 700;
     border-radius: 5px;
-    padding: 0.5em;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 1em;
     margin-bottom: 1em;
+    position: relative;
+}
+
+#banner #filters .active-filters .filter .filter-name,
+#banner #filters .active-filters .filter .clear-filter {
+    padding: 0.5em;
+}
+
+#banner #filters .active-filters .filter .clear-filter {
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    transition: 0.2s background-color ease-in-out;
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#banner #filters .active-filters .filter .clear-filter::after {
+    content: "X";
+}
+
+#banner #filters .active-filters .filter .clear-filter:hover,
+#banner #filters .active-filters .filter .clear-filter:focus {
+    background-color: var(--very-dark-grayish-cyan) !important;
 }
 
 #banner #filters #clear-filters {

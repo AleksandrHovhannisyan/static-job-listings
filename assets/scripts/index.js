@@ -229,7 +229,13 @@ function addFilter(filter) {
 function renderFilters() {
   // TODO: maybe don't re-render the whole thing? Probably not too big a deal.
   filtersElement.innerHTML = Array.from(activeFilters)
-    .map(filter => `<div class="filter">${filter}</div>`)
+    .map(
+      filter =>
+        `<div class="filter" id="filter-${filter}">
+          <span class="filter-name">${filter}</span>
+          <div class="clear-filter"></div>
+        </div>`
+    )
     .join("");
 }
 
