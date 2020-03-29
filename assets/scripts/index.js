@@ -223,20 +223,25 @@ function renderJobListings(listings, callback) {
 function addFilter(filter) {
   if (activeFilters.has(filter)) return;
   activeFilters.add(filter);
-  renderFilters();
-}
 
-function renderFilters() {
-  // TODO: maybe don't re-render the whole thing? Probably not too big a deal.
-  filtersElement.innerHTML = Array.from(activeFilters)
-    .map(
-      filter =>
-        `<div class="filter" id="filter-${filter}">
-          <span class="filter-name">${filter}</span>
-          <div class="clear-filter"></div>
-        </div>`
-    )
-    .join("");
+  const newFilter = document.createElement("div");
+  newFilter.classList.add("filter");
+  newFilter.id = `filter-${filter}`;
+
+  const filterName = document.createElement("span");
+  filterName.classList.add("filter-name");
+  filterName.innerText = filter;
+
+  const clearFilter = document.createElement("div");
+  clearFilter.classList.add("clear-filter");
+  clearFilter.addEventListener("click", clickEvent => {
+    const filterToRemove = clickEvent.target.parentNode;
+    filtersElement.removeChild(filterToRemove);
+  });
+
+  newFilter.appendChild(filterName);
+  newFilter.appendChild(clearFilter);
+  filtersElement.appendChild(newFilter);
 }
 
 getDataFromAPI().then(data =>
@@ -251,5 +256,5 @@ getDataFromAPI().then(data =>
 
 document.getElementById("clear-filters").addEventListener("click", () => {
   activeFilters.clear();
-  renderFilters();
+  filtersElement.innerHTML = "";
 });
