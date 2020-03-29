@@ -46,10 +46,14 @@ body {
     left: 1.5rem;
     right: 1.5rem;
     bottom: -50px;
-    min-height: 100px;
+    min-height: 80px;
     margin-left: auto;
     margin-right: auto;
     max-width: 1150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 2em;
 }
 
 .wrapper {
@@ -233,6 +237,10 @@ body {
 .job-listing .tags .tag:focus {
     color: white;
     background-color: var(--primary);
+}
+
+a {
+    color: var(--primary);
 }
 
 .attribution {
