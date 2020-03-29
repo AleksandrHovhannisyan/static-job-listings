@@ -1,6 +1,8 @@
 # Frontend Mentor - Job Listings Challenge
 
-![Design preview for the Job Listings coding challenge](./design/desktop-preview.jpg)
+**Live solution available at**: https://filtered-job-listings-frontendmentor-54x7g29oh.now.sh/
+
+![Design preview for the Job Listings coding challenge](./assets/design/desktop-preview.jpg)
 
 ## Welcome! 👋
 
