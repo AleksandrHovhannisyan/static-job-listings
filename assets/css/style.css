@@ -37,7 +37,19 @@ body {
     background-color: var(--primary);
     background-position: center;
     height: 156px;
-    margin-bottom: 3.4em;
+    margin-bottom: 6.8em;
+    position: relative;
+}
+
+#banner #filters {
+    position: absolute;   
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: -50px;
+    min-height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1150px;
 }
 
 .wrapper {
@@ -46,20 +58,26 @@ body {
     margin-right: auto;
 }
 
-#job-listings {
+.section {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+}
+
+#job-listings {
     max-width: 1440px;
+}
+
+.card {
+    background-color: white;
+    box-shadow: 0 10px 20px 0 rgba(0, 91, 114, 0.1);
+    border-radius: 5px;
 }
 
 #job-listings .job-listing {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: white;
-    box-shadow: 0 10px 20px 0 rgba(0, 91, 114, 0.1);
     padding: 1.4em;
-    border-radius: 5px;
     position: relative;
     padding-top: 2em;
     padding-bottom: 0.4em;

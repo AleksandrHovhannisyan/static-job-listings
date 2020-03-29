@@ -159,7 +159,7 @@ function getDataFromAPI() {
 function renderJobListings(listings) {
   jobListings.innerHTML = listings
     .map(
-      listing => `<div class="job-listing${
+      listing => `<div class="job-listing card${
         listing.featured ? " featured" : ""
       }">
       <header>
