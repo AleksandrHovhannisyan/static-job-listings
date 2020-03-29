@@ -4,7 +4,8 @@ const jobListingsElement = document.getElementById("job-listings");
 
 // Using a set to store unique filters as strings
 const activeFilters = new Set();
-const filtersElement = document.querySelector("#filters .active-filters");
+const filtersWrapper = document.getElementById("filters");
+const activeFiltersElement = filtersWrapper.querySelector(".active-filters");
 
 function getDataFromAPI() {
   return new Promise(resolve => {
@@ -216,6 +217,12 @@ function renderListings(listings) {
 
 function addFilter(filter) {
   if (activeFilters.has(filter)) return;
+
+  // If we're adding the very first filter, set the wrapper to be visible
+  if (!activeFilters.size) {
+    filtersWrapper.classList.add("visible");
+  }
+
   activeFilters.add(filter);
 
   const newFilter = document.createElement("div");
@@ -234,20 +241,24 @@ function addFilter(filter) {
 
   newFilter.appendChild(filterName);
   newFilter.appendChild(clearFilter);
-  filtersElement.appendChild(newFilter);
+  activeFiltersElement.appendChild(newFilter);
   filterAndRerenderListings();
 }
 
 function removeFilter(filter) {
-  filtersElement.removeChild(filter);
+  activeFiltersElement.removeChild(filter);
   activeFilters.delete(filter.innerText);
   filterAndRerenderListings();
+  if (!activeFilters.size) {
+    filtersWrapper.classList.remove("visible");
+  }
 }
 
 function clearAllFilters() {
   activeFilters.clear();
-  filtersElement.innerHTML = "";
+  activeFiltersElement.innerHTML = "";
   filterAndRerenderListings();
+  filtersWrapper.classList.remove("visible");
 }
 
 function filterAndRerenderListings() {

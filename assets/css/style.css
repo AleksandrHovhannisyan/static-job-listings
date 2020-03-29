@@ -50,10 +50,14 @@ body {
     margin-left: auto;
     margin-right: auto;
     max-width: 1150px;
+    padding: 1em 2em 0em 2em;
+    display: none;
+}
+
+#banner #filters.visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1em 2em 0em 2em;
 }
 
 /* TODO: at some point, if you add too many filters, the height will overflow the banner upwards */
