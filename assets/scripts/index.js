@@ -160,10 +160,20 @@ function getDataFromAPI() {
 
 function renderJobListings(listings, callback) {
   jobListings.innerHTML = listings
-    .map(
-      listing => `<div class="job-listing card${
+    .map(listing => {
+      const tags = [listing.role, listing.level];
+
+      if (listing.languages) {
+        listing.languages.forEach(lang => tags.push(lang));
+      }
+
+      if (listing.tools) {
+        listing.tools.forEach(tool => tags.push(tool));
+      }
+
+      return `<div class="job-listing card${
         listing.featured ? " featured" : ""
-      }">
+      }" data-tags="${tags.join(" ")}">
       <header class="listing-header">
         <img src="${listing.logo}" alt="${
         listing.company
@@ -196,25 +206,10 @@ function renderJobListings(listings, callback) {
       </header>
       <hr>
       <footer class="tags">
-      <a class="tag" href="#0">${listing.role}</a>
-      <a class="tag" href="#0">${listing.level}</a>
-      ${
-        listing.languages
-          ? listing.languages
-              .map(lang => `<a class="tag" href="#0">${lang}</a>`)
-              .join("")
-          : ""
-      }  
-      ${
-        listing.tools
-          ? listing.tools
-              .map(tool => `<a class="tag" href="#0">${tool}</a>`)
-              .join("")
-          : ""
-      }
+      ${tags.map(tag => `<a class="tag" href="#0">${tag}</a>`).join("")}
       </footer>
-    </div>`
-    )
+    </div>`;
+    })
     .join("");
 
   callback();
