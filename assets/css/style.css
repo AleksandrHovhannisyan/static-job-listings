@@ -53,7 +53,35 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1em 2em;
+    padding: 1em 2em 0em 2em;
+}
+
+/* TODO: at some point, if you add too many filters, the height will overflow the banner upwards */
+#banner #filters .active-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* TODO: extract this styling out into a common .tag class since it's shared with tags */
+#banner #filters .active-filters .filter {
+    background-color: var(--light-grayish-cyan-tags);
+    color: var(--primary);
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+#banner #filters #clear-filters {
+    margin-bottom: 1em;
+    text-decoration: underline;
+    color: var(--primary);
+    cursor: pointer;
 }
 
 .wrapper {
@@ -237,10 +265,6 @@ body {
 .job-listing .tags .tag:focus {
     color: white;
     background-color: var(--primary);
-}
-
-a {
-    color: var(--primary);
 }
 
 .attribution {

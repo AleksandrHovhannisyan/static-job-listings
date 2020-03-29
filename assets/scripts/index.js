@@ -1,4 +1,6 @@
 const jobListings = document.getElementById("job-listings");
+const activeFilters = new Set();
+const filtersElement = document.querySelector("#filters .active-filters");
 
 function getDataFromAPI() {
   return new Promise(resolve => {
@@ -156,7 +158,7 @@ function getDataFromAPI() {
   });
 }
 
-function renderJobListings(listings) {
+function renderJobListings(listings, callback) {
   jobListings.innerHTML = listings
     .map(
       listing => `<div class="job-listing card${
@@ -214,6 +216,34 @@ function renderJobListings(listings) {
     </div>`
     )
     .join("");
+
+  callback();
 }
 
-getDataFromAPI().then(renderJobListings);
+function addFilter(filter) {
+  if (activeFilters.has(filter)) return;
+  activeFilters.add(filter);
+  renderFilters();
+}
+
+function renderFilters() {
+  // TODO: maybe don't re-render the whole thing? Probably not too big a deal.
+  filtersElement.innerHTML = Array.from(activeFilters)
+    .map(filter => `<div class="filter">${filter}</div>`)
+    .join("");
+}
+
+getDataFromAPI().then(data =>
+  renderJobListings(data, () => {
+    document.querySelectorAll(".tag").forEach(tag => {
+      tag.addEventListener("click", clickEvent => {
+        addFilter(clickEvent.target.innerText);
+      });
+    });
+  })
+);
+
+document.getElementById("clear-filters").addEventListener("click", () => {
+  activeFilters.clear();
+  renderFilters();
+});
