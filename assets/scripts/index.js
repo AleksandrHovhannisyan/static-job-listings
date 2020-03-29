@@ -1,4 +1,8 @@
-const jobListings = document.getElementById("job-listings");
+// allListings will never be mutated after initial assignment
+let allListings = [];
+const jobListingsElement = document.getElementById("job-listings");
+
+// Using a set to store unique filters as strings
 const activeFilters = new Set();
 const filtersElement = document.querySelector("#filters .active-filters");
 
@@ -158,26 +162,17 @@ function getDataFromAPI() {
   });
 }
 
-function renderJobListings(listings, callback) {
-  jobListings.innerHTML = listings
-    .map(listing => {
-      const tags = [listing.role, listing.level];
-
-      if (listing.languages) {
-        listing.languages.forEach(lang => tags.push(lang));
-      }
-
-      if (listing.tools) {
-        listing.tools.forEach(tool => tags.push(tool));
-      }
-
-      return `<div class="job-listing card${
-        listing.featured ? " featured" : ""
-      }" data-tags="${tags.join(" ")}">
+function renderListings(listings) {
+  jobListingsElement.innerHTML = listings
+    .map(
+      listing =>
+        `<div class="job-listing card${
+          listing.featured ? " featured" : ""
+        }" data-tags="${listing.tags.join(" ")}">
       <header class="listing-header">
         <img src="${listing.logo}" alt="${
-        listing.company
-      }'s logo" class="company-logo" />
+          listing.company
+        }'s logo" class="company-logo" />
         <div>
           <div class="listing-details">
             <span class="company-name">${listing.company}</span>
@@ -206,13 +201,17 @@ function renderJobListings(listings, callback) {
       </header>
       <hr>
       <footer class="tags">
-      ${tags.map(tag => `<a class="tag" href="#0">${tag}</a>`).join("")}
+      ${listing.tags.map(tag => `<a class="tag" href="#0">${tag}</a>`).join("")}
       </footer>
-    </div>`;
-    })
+    </div>`
+    )
     .join("");
 
-  callback();
+  document.querySelectorAll(".tag").forEach(tag => {
+    tag.addEventListener("click", clickEvent => {
+      addFilter(clickEvent.target.innerText);
+    });
+  });
 }
 
 function addFilter(filter) {
@@ -230,26 +229,65 @@ function addFilter(filter) {
   const clearFilter = document.createElement("div");
   clearFilter.classList.add("clear-filter");
   clearFilter.addEventListener("click", clickEvent => {
-    const filterToRemove = clickEvent.target.parentNode;
-    filtersElement.removeChild(filterToRemove);
+    removeFilter(clickEvent.target.parentNode);
   });
 
   newFilter.appendChild(filterName);
   newFilter.appendChild(clearFilter);
   filtersElement.appendChild(newFilter);
+  filterAndRerenderListings();
 }
 
-getDataFromAPI().then(data =>
-  renderJobListings(data, () => {
-    document.querySelectorAll(".tag").forEach(tag => {
-      tag.addEventListener("click", clickEvent => {
-        addFilter(clickEvent.target.innerText);
-      });
-    });
-  })
-);
+function removeFilter(filter) {
+  filtersElement.removeChild(filter);
+  activeFilters.delete(filter.innerText);
+  filterAndRerenderListings();
+}
 
-document.getElementById("clear-filters").addEventListener("click", () => {
+function clearAllFilters() {
   activeFilters.clear();
   filtersElement.innerHTML = "";
+  filterAndRerenderListings();
+}
+
+function filterAndRerenderListings() {
+  // Perhaps not the most performant solution, but it gets the job done cleanly.
+  // Basically, for each filter, we iterate over all listings and remove any
+  // that do not have that filter in their array of tags.
+  const filteredListings = Array.from(activeFilters).reduce(
+    (filteredListings, filter) => {
+      return filteredListings.filter(listing => {
+        return listing.tags.includes(filter);
+      });
+    },
+    allListings // This is key. We begin the filtering process from scratch each time.
+  );
+
+  renderListings(filteredListings);
+}
+
+getDataFromAPI().then(data => {
+  allListings = data.map(listing => {
+    // ES6 destructuring assignment, to avoid storing duplicate data (see return statement)
+    const { tools, languages, role, level, ...listingData } = listing;
+
+    const tags = [role, level];
+
+    if (listing.languages) {
+      listing.languages.forEach(lang => tags.push(lang));
+    }
+
+    if (listing.tools) {
+      listing.tools.forEach(tool => tags.push(tool));
+    }
+
+    // Here. If we didn't destructure, we'd have unnecessary, duplicate data
+    // stored across level, role, tools, languages, and again in tags.
+    return { ...listingData, tags };
+  });
+  renderListings(allListings);
 });
+
+document
+  .getElementById("clear-filters")
+  .addEventListener("click", clearAllFilters);
