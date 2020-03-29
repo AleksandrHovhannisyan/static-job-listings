@@ -126,7 +126,7 @@ function getDataFromAPI() {
           contract: "Full Time",
           location: "USA Only",
           languages: ["JavaScript"],
-          tools: ["Vue, Sass"]
+          tools: ["Vue", "Sass"]
         },
         {
           id: 9,
