@@ -162,27 +162,33 @@ function renderJobListings(listings) {
       listing => `<div class="job-listing card${
         listing.featured ? " featured" : ""
       }">
-      <header>
+      <header class="listing-header">
         <img src="${listing.logo}" alt="${
         listing.company
       }'s logo" class="company-logo" />
-        <div class="listing-details">
-          <span class="company-name">${listing.company}</span>
-          <ul class="listing-types">
-            ${listing.new ? `<li class="new listing-type pill">NEW!</li>` : ""}
-            ${
-              listing.featured
-                ? `<li class="featured listing-type pill">FEATURED</li>`
-                : ""
-            }
-          </ul>
-        </div>
-        <div class="position">
-          <div class="title">${listing.position}</div>
-          <div class="details">
-            <div class="detail posted-at">${listing.postedAt}</div>
-            <div class="detail contract">${listing.contract}</div>
-            <div class="detail location">${listing.location}</div>
+        <div>
+          <div class="listing-details">
+            <span class="company-name">${listing.company}</span>
+            <ul class="listing-types">
+                ${
+                  listing.new
+                    ? `<li class="new listing-type pill">NEW!</li>`
+                    : ""
+                }
+                ${
+                  listing.featured
+                    ? `<li class="featured listing-type pill">FEATURED</li>`
+                    : ""
+                }
+            </ul>
+          </div>
+          <div class="position">
+            <div class="title">${listing.position}</div>
+            <div class="details">
+              <div class="detail posted-at">${listing.postedAt}</div>
+              <div class="detail contract">${listing.contract}</div>
+              <div class="detail location">${listing.location}</div>
+            </div>
           </div>
         </div>
       </header>

@@ -89,8 +89,21 @@ body {
         background-image: url("../img/bg-header-desktop.svg");
     }
 
+    #job-listings .job-listing .listing-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
     #job-listings .job-listing {
         flex-direction: row;
+        padding-bottom: 1em;
+    }
+
+    #job-listings .job-listing .company-logo {
+        position: static;
+        width: 5em;
+        height: 5em;
+        margin-right: 1.5em;
     }
 
     #job-listings .job-listing hr {
@@ -100,6 +113,11 @@ body {
 
 .job-listing.featured {
     border-left: solid 6px var(--primary);
+}
+
+.job-listing .listing-header {
+    display: flex;
+    flex-direction: column;
 }
 
 .job-listing .company-logo {
