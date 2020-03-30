@@ -1,5 +1,5 @@
-// allListings will never be mutated after initial assignment
-let allListings = [];
+// jobListings will never be mutated after initial assignment
+let jobListings = [];
 const jobListingsElement = document.getElementById("job-listings");
 
 // Using a set to store unique filters as strings
@@ -163,11 +163,11 @@ function getDataFromAPI() {
   });
 }
 
-function renderListings(listings) {
-  jobListingsElement.innerHTML = listings
+function renderListings() {
+  jobListingsElement.innerHTML = jobListings
     .map(
       listing =>
-        `<div class="job-listing card${
+        `<div id="listing-${listing.id}" class="job-listing card${
           listing.featured ? " featured" : ""
         }" data-tags="${listing.tags.join(" ")}">
       <header class="listing-header">
@@ -242,13 +242,13 @@ function addFilter(filter) {
   newFilter.appendChild(filterName);
   newFilter.appendChild(clearFilter);
   activeFiltersElement.appendChild(newFilter);
-  filterAndRerenderListings();
+  filterListings();
 }
 
 function removeFilter(filter) {
   activeFiltersElement.removeChild(filter);
   activeFilters.delete(filter.innerText);
-  filterAndRerenderListings();
+  filterListings();
   if (!activeFilters.size) {
     filtersWrapper.classList.remove("visible");
   }
@@ -257,28 +257,32 @@ function removeFilter(filter) {
 function clearAllFilters() {
   activeFilters.clear();
   activeFiltersElement.innerHTML = "";
-  filterAndRerenderListings();
   filtersWrapper.classList.remove("visible");
+  filterListings();
 }
 
-function filterAndRerenderListings() {
-  // Perhaps not the most performant solution, but it gets the job done cleanly.
-  // Basically, for each filter, we iterate over all listings and remove any
-  // that do not have that filter in their array of tags.
-  const filteredListings = Array.from(activeFilters).reduce(
-    (filteredListings, filter) => {
-      return filteredListings.filter(listing => {
-        return listing.tags.includes(filter);
-      });
-    },
-    allListings // This is key. We begin the filtering process from scratch each time.
-  );
+function filterListings() {
+  // Make all listings visible
+  if (activeFilters.size === 0) {
+    document
+      .querySelectorAll(".job-listing")
+      .forEach(listing => (listing.style.display = "flex"));
+    return;
+  }
 
-  renderListings(filteredListings);
+  jobListings.forEach(listing => {
+    const listingElement = document.getElementById(`listing-${listing.id}`);
+    // If every filter is present in a listing's tags, then show that listing (flex)
+    if (Array.from(activeFilters).every(tag => listing.tags.includes(tag))) {
+      listingElement.style.display = "flex";
+    } else {
+      listingElement.style.display = "none";
+    }
+  });
 }
 
 getDataFromAPI().then(data => {
-  allListings = data.map(listing => {
+  jobListings = data.map(listing => {
     // ES6 destructuring assignment, to avoid storing duplicate data (see return statement)
     const { tools, languages, role, level, ...listingData } = listing;
 
@@ -296,7 +300,7 @@ getDataFromAPI().then(data => {
     // stored across level, role, tools, languages, and again in tags.
     return { ...listingData, tags };
   });
-  renderListings(allListings);
+  renderListings();
 });
 
 document
