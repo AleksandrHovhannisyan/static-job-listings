@@ -97,6 +97,7 @@ body {
     cursor: pointer;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    text-decoration: none;
 }
 
 #banner #filters .active-filters .filter .clear-filter::after {
@@ -160,12 +161,13 @@ body {
     #job-listings .job-listing {
         flex-direction: row;
         padding-bottom: 1em;
+        margin-bottom: 1.5em;
     }
 
     #job-listings .job-listing .company-logo {
         position: static;
-        width: 5em;
-        height: 5em;
+        width: 6.7em;
+        height: 6.7em;
         margin-right: 1.5em;
     }
 
