@@ -233,14 +233,15 @@ function addFilter(filter) {
   filterName.classList.add("filter-name");
   filterName.innerText = filter;
 
-  const clearFilter = document.createElement("div");
-  clearFilter.classList.add("clear-filter");
-  clearFilter.addEventListener("click", clickEvent => {
+  const clearFilterButton = document.createElement("a");
+  clearFilterButton.setAttribute("href", "#0");
+  clearFilterButton.classList.add("clear-filter");
+  clearFilterButton.addEventListener("click", clickEvent => {
     removeFilter(clickEvent.target.parentNode);
   });
 
   newFilter.appendChild(filterName);
-  newFilter.appendChild(clearFilter);
+  newFilter.appendChild(clearFilterButton);
   activeFiltersElement.appendChild(newFilter);
   filterListings();
 }

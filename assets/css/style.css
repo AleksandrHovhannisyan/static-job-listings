@@ -97,6 +97,7 @@ body {
     cursor: pointer;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    text-decoration: none;
 }
 
 #banner #filters .active-filters .filter .clear-filter::after {
