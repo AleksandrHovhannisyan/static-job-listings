@@ -203,7 +203,7 @@ function renderListings() {
       <hr>
       <ul class="job-tags">
       ${listing.tags
-        .map((tag) => `<li><a class="job-tag" href="#0">${tag}</a></li>`)
+        .map((tag) => `<li><button class="job-tag">${tag}</button></li>`)
         .join("")}
       </ul>
     </li>`
