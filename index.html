@@ -7,21 +7,254 @@
   <link href="https://fonts.googleapis.com/css?family=Spartan:500,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   <title>Frontend Mentor | Job Listings</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
-  <header id="banner">
-    <div class="card" id="filters">
-      <ol class="active-filters" aria-label="Active filters"></ol>
-      <button id="clear-all-filters-button" aria-label="Clear all filters">Clear</button>
-    </div>
-  </header>
-  <main class="wrapper">
-    <ol id="job-listings" class="section" aria-label="Job listings"></ol>
-  </main>
-  <footer class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Aleksandr Hovhannisyan</a>.
-  </footer>
-  <script src="./assets/scripts/index.js"></script>
+  <div id="app">
+    <header id="banner">
+      <div class="card" :class="{ visible: activeFilters.length }" id="filters">
+        <ol class="active-filters" aria-label="Active filters">
+          <li v-for="filter in activeFilters" class="filter">
+            <span class="filter-name">{{ filter }}</span>
+            <button class="clear-filter-button" aria-label="Clear this filter" @click="removeFilter(filter)">X</button>
+          </li>
+        </ol>
+        <button id="clear-all-filters-button" aria-label="Clear all filters" @click="removeAllFilters">Clear</button>
+      </div>
+    </header>
+    <main class="wrapper">
+      <ol id="job-listings" class="section" aria-label="Job listings">
+        <li 
+          v-for="jobListing in jobListings"
+          class="job-listing card"
+          :class="{ featured: jobListing.featured, hidden: !hasAllFilters(jobListing) }"
+        >
+          <header class="job-listing-header">
+            <img :src="jobListing.logo" alt="" aria-hidden="true" class="job-company-logo" />
+            <div>
+              <div class="job-listing-details">
+                <h2 class="job-company-name">{{ jobListing.company }}</h2>
+                <ul class="job-listing-types">
+                  <li v-if="jobListing.new" class="new job-listing-type pill">NEW!</li>
+                  <li v-if="jobListing.featured" class="featured job-listing-type pill">FEATURED</li>
+                </ul>
+              </div>
+              <div class="job-position">
+                <h3 class="job-title">{{ jobListing.position }}</h3>
+                <div class="job-details">
+                  <div class="job-detail posted-at">{{ jobListing.postedAt }}</div>
+                  <div class="job-detail contract">{{ jobListing.contract }}</div>
+                  <div class="job-detail location">{{ jobListing.location }}</div>
+                </div>
+              </div>
+            </div>
+          </header>
+          <hr>
+          <ul class="job-tags">
+            <li v-for="tag in jobListing.tags">
+              <button class="job-tag" @click="addFilter(tag)">{{ tag }}</button>
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </main>
+    <footer class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+      Coded by <a href="#">Aleksandr Hovhannisyan</a>.
+    </footer>
+  </div>
+
+  <script>
+    const vue = new Vue({
+      el: '#app',
+      data: {
+        jobListings: [],
+        // Better to use Set, but Vue doesn't let you iterate over sets... 🤔
+        activeFilters: [],
+      },
+      methods: {
+        addTagsToJobs: function() {
+          this.jobListings = this.jobListings.map(listing => {
+            // Note that every listing has a role and level; tools and languages are optional
+            const { tools = [], languages = [], role, level, ...otherData } = listing;
+            return { ...otherData, tags: [role, level, ...languages, ...tools] }
+          });
+        },
+        addFilter: function(filter) {
+          if (this.activeFilters.includes(filter)) return;
+          this.activeFilters.push(filter);
+        },
+        removeFilter: function(filterToRemove) {
+          this.activeFilters = this.activeFilters.filter(activeFilter => activeFilter !== filterToRemove);
+        },
+        removeAllFilters: function() {
+          this.activeFilters = [];
+        },
+        hasAllFilters: function(jobListing) {
+          return this.activeFilters.every(filter => jobListing.tags.includes(filter));
+        },
+      },
+      created: function() {
+        // Mimic API call
+        new Promise(resolve => {
+          setTimeout(() => resolve(), 1000);
+        }).then(() => {
+          this.jobListings = [
+            {
+              id: 1,
+              company: "Photosnap",
+              logo: "./assets/img/photosnap.svg",
+              new: true,
+              featured: true,
+              position: "Senior Frontend Developer",
+              role: "Frontend",
+              level: "Senior",
+              postedAt: "1d ago",
+              contract: "Full Time",
+              location: "USA Only",
+              languages: ["HTML", "CSS", "JavaScript"],
+            },
+            {
+              id: 2,
+              company: "Manage",
+              logo: "./assets/img/manage.svg",
+              new: true,
+              featured: true,
+              position: "Fullstack Developer",
+              role: "Fullstack",
+              level: "Midweight",
+              postedAt: "1d ago",
+              contract: "Part Time",
+              location: "Remote",
+              languages: ["Python"],
+              tools: ["React"],
+            },
+            {
+              id: 3,
+              company: "Account",
+              logo: "./assets/img/account.svg",
+              new: true,
+              featured: false,
+              position: "Junior Frontend Developer",
+              role: "Frontend",
+              level: "Junior",
+              postedAt: "2d ago",
+              contract: "Part Time",
+              location: "USA Only",
+              languages: ["JavaScript"],
+              tools: ["React", "Sass"],
+            },
+            {
+              id: 4,
+              company: "MyHome",
+              logo: "./assets/img/myhome.svg",
+              new: false,
+              featured: false,
+              position: "Junior Frontend Developer",
+              role: "Frontend",
+              level: "Junior",
+              postedAt: "5d ago",
+              contract: "Contract",
+              location: "USA Only",
+              languages: ["CSS", "JavaScript"],
+            },
+            {
+              id: 5,
+              company: "Loop Studios",
+              logo: "./assets/img/loop-studios.svg",
+              new: false,
+              featured: false,
+              position: "Software Engineer",
+              role: "FullStack",
+              level: "Midweight",
+              postedAt: "1w ago",
+              contract: "Full Time",
+              location: "Worldwide",
+              languages: ["JavaScript"],
+              tools: ["Ruby", "Sass"],
+            },
+            {
+              id: 6,
+              company: "FaceIt",
+              logo: "./assets/img/faceit.svg",
+              new: false,
+              featured: false,
+              position: "Junior Backend Developer",
+              role: "Backend",
+              level: "Junior",
+              postedAt: "2w ago",
+              contract: "Full Time",
+              location: "UK Only",
+              tools: ["RoR"],
+            },
+            {
+              id: 7,
+              company: "Shortly",
+              logo: "./assets/img/shortly.svg",
+              new: false,
+              featured: false,
+              position: "Junior Developer",
+              role: "Frontend",
+              level: "Junior",
+              postedAt: "2w ago",
+              contract: "Full Time",
+              location: "Worldwide",
+              languages: ["HTML", "JavaScript"],
+              tools: ["Sass"],
+            },
+            {
+              id: 8,
+              company: "Insure",
+              logo: "./assets/img/insure.svg",
+              new: false,
+              featured: false,
+              position: "Junior Frontend Developer",
+              role: "Frontend",
+              level: "Junior",
+              postedAt: "2w ago",
+              contract: "Full Time",
+              location: "USA Only",
+              languages: ["JavaScript"],
+              tools: ["Vue", "Sass"],
+            },
+            {
+              id: 9,
+              company: "Eyecam Co.",
+              logo: "./assets/img/eyecam-co.svg",
+              new: false,
+              featured: false,
+              position: "Full Stack Engineer",
+              role: "Fullstack",
+              level: "Midweight",
+              postedAt: "3w ago",
+              contract: "Full Time",
+              location: "Worldwide",
+              languages: ["JavaScript", "Python"],
+              tools: ["Django"],
+            },
+            {
+              id: 10,
+              company: "The Air Filter Company",
+              logo: "./assets/img/the-air-filter-company.svg",
+              new: false,
+              featured: false,
+              position: "Front-end Dev",
+              role: "Frontend",
+              level: "Junior",
+              postedAt: "1mo ago",
+              contract: "Part Time",
+              location: "Worldwide",
+              languages: ["JavaScript"],
+              tools: ["React", "Sass"],
+            },
+          ];
+
+          // The above data is assumed to be provided as-is by some API (per the challenge).
+          // We need to restructure the data for filtering, though.
+          this.addTagsToJobs();
+        });
+      },
+    })
+  </script>
 </body>
 </html>
