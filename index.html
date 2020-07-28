@@ -11,17 +11,17 @@
 <body>
   <header id="banner">
     <div class="card" id="filters">
-      <div class="active-filters"></div>
-      <a href="#0" id="clear-filters">Clear</a>
+      <ol class="active-filters" aria-label="Active filters"></ol>
+      <button id="clear-all-filters-button" aria-label="Clear all filters">Clear</button>
     </div>
   </header>
-  <div class="wrapper">
-    <main id="job-listings" class="section"></main>
-  </div>
-  <div class="attribution">
+  <main class="wrapper">
+    <ol id="job-listings" class="section" aria-label="Job listings"></ol>
+  </main>
+  <footer class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
     Coded by <a href="#">Aleksandr Hovhannisyan</a>.
-  </div>
+  </footer>
   <script src="./assets/scripts/index.js"></script>
 </body>
 </html>

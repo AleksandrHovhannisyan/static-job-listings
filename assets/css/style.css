@@ -41,7 +41,7 @@ body {
     position: relative;
 }
 
-#banner #filters {
+#filters {
     position: absolute;   
     left: 1.5rem;
     right: 1.5rem;
@@ -54,21 +54,22 @@ body {
     display: none;
 }
 
-#banner #filters.visible {
+#filters.visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 /* TODO: at some point, if you add too many filters, the height will overflow the banner upwards */
-#banner #filters .active-filters {
+.active-filters {
+    list-style: none;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
 
 /* TODO: extract this styling out into a common .tag class since it's shared with tags */
-#banner #filters .active-filters .filter {
+.filter {
     background-color: var(--light-grayish-cyan-tags);
     color: var(--primary);
     font-weight: 700;
@@ -81,14 +82,14 @@ body {
     position: relative;
 }
 
-#banner #filters .active-filters .filter .filter-name,
-#banner #filters .active-filters .filter .clear-filter {
+.filter-name {
     padding: 0.5em;
 }
 
-#banner #filters .active-filters .filter .clear-filter {
+.clear-filter-button {
     background-color: var(--primary);
     color: white;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,20 +99,22 @@ body {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     text-decoration: none;
+    padding: 0.5em;
+    font-weight: 700;
+    font-size: 1.2em;
 }
 
-#banner #filters .active-filters .filter .clear-filter::after {
-    content: "X";
-}
-
-#banner #filters .active-filters .filter .clear-filter:hover,
-#banner #filters .active-filters .filter .clear-filter:focus {
+.clear-filter-button:hover,
+.clear-filter-button:focus {
     background-color: var(--very-dark-grayish-cyan) !important;
 }
 
-#banner #filters #clear-filters {
+#clear-all-filters-button {
     margin-bottom: 1em;
     text-decoration: underline;
+    background: none;
+    border: none;
+    font-size: 1em;
     color: var(--primary);
     cursor: pointer;
 }
@@ -127,17 +130,18 @@ body {
     padding-right: 1.5rem;
 }
 
-#job-listings {
-    max-width: 1440px;
-}
-
 .card {
     background-color: white;
     box-shadow: 0 10px 20px 0 rgba(0, 91, 114, 0.1);
     border-radius: 5px;
 }
 
-#job-listings .job-listing {
+#job-listings {
+    list-style: none;
+    max-width: 1440px;
+}
+
+.job-listing {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -148,44 +152,16 @@ body {
     margin-bottom: 3em;
 }
 
-@media screen and (min-width: 1440px) {
-    #banner {
-        background-image: url("../img/bg-header-desktop.svg");
-    }
-
-    #job-listings .job-listing .listing-header {
-        flex-direction: row;
-        align-items: center;
-    }
-
-    #job-listings .job-listing {
-        flex-direction: row;
-        padding-bottom: 1em;
-        margin-bottom: 1.5em;
-    }
-
-    #job-listings .job-listing .company-logo {
-        position: static;
-        width: 6.7em;
-        height: 6.7em;
-        margin-right: 1.5em;
-    }
-
-    #job-listings .job-listing hr {
-        display: none;
-    }
-}
-
 .job-listing.featured {
     border-left: solid 6px var(--primary);
 }
 
-.job-listing .listing-header {
+.job-listing-header {
     display: flex;
     flex-direction: column;
 }
 
-.job-listing .company-logo {
+.job-company-logo {
     position: absolute;
     width: 3.4em;
     height: 3.4em;
@@ -193,40 +169,40 @@ body {
     left: 1em;
 }
 
-.job-listing .listing-details {
+.job-listing-details {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     margin-bottom: 1em;
 }
 
-.job-listing .listing-details .company-name {
+.job-company-name {
     color: var(--primary);
     font-weight: 700;
     margin-right: 1em;
 }
 
-.job-listing .listing-details .listing-types {
+.job-listing-types {
     display: flex;
     list-style-type: none;
 }
 
-.listing-type {
+.job-listing-type {
     margin-right: 0.5em;
     font-weight: 700;
     font-size: 0.8em;
 }
 
-.listing-type.new,
-.listing-type.featured {
+.job-listing-type.new,
+.job-listing-type.featured {
     color: white;
 }
 
-.listing-type.new {
+.job-listing-type.new {
     background-color: var(--primary);
 }
 
-.listing-type.featured {
+.job-listing-type.featured {
     background-color: var(--very-dark-grayish-cyan);
 }
 
@@ -235,30 +211,31 @@ body {
     padding: 0.6em;
 }
 
-.job-listing .position {
+.job-position {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em;
 }
 
-.job-listing .position .title {
+.job-title {
+    font-size: 1em;
     font-weight: 700;
     margin-bottom: 1em;
 }
 
-.job-listing .position .details {
+.job-details {
     display: flex;
     color: var(--dark-grayish-cyan);
 }
 
-.job-listing .position .details .detail:not(:last-child)::after {
+.job-detail:not(:last-child)::after {
     content: "•";
     margin-left: 0.25em;
     margin-right: 0.25em;
 }
 
 @media screen and (min-width: 390px) {
-    .job-listing .position .details .detail:not(:last-child)::after {
+    .job-detail:not(:last-child)::after {
         content: "•";
         margin-left: 0.5em;
         margin-right: 0.5em;
@@ -271,14 +248,15 @@ body {
     border-color: hsl(0, 0%, 90%);
 }
 
-.job-listing .tags {
+.job-tags {
+    list-style: none;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     padding-top: 1em;;
 }
 
-.job-listing .tags .tag {
+.job-tag {
     margin-right: 1em;
     margin-bottom: 1em;
     background-color: var(--light-grayish-cyan-tags);
@@ -294,8 +272,8 @@ body {
     justify-content: center;
 }
 
-.job-listing .tags .tag:hover,
-.job-listing .tags .tag:focus {
+.job-tag:hover,
+.job-tag:focus {
     color: white;
     background-color: var(--primary);
 }
@@ -307,4 +285,32 @@ body {
 
 .attribution a {
   color: hsl(228, 45%, 44%);
+}
+
+@media screen and (min-width: 1440px) {
+    #banner {
+        background-image: url("../img/bg-header-desktop.svg");
+    }
+
+    .job-listing-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .job-listing {
+        flex-direction: row;
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .job-company-logo {
+        position: static;
+        width: 6.7em;
+        height: 6.7em;
+        margin-right: 1.5em;
+    }
+
+    .job-listing hr {
+        display: none;
+    }
 }

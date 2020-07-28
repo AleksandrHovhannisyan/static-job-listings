@@ -8,7 +8,7 @@ const filtersWrapper = document.getElementById("filters");
 const activeFiltersElement = filtersWrapper.querySelector(".active-filters");
 
 function getDataFromAPI() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
         {
@@ -23,7 +23,7 @@ function getDataFromAPI() {
           postedAt: "1d ago",
           contract: "Full Time",
           location: "USA Only",
-          languages: ["HTML", "CSS", "JavaScript"]
+          languages: ["HTML", "CSS", "JavaScript"],
         },
         {
           id: 2,
@@ -38,7 +38,7 @@ function getDataFromAPI() {
           contract: "Part Time",
           location: "Remote",
           languages: ["Python"],
-          tools: ["React"]
+          tools: ["React"],
         },
         {
           id: 3,
@@ -53,7 +53,7 @@ function getDataFromAPI() {
           contract: "Part Time",
           location: "USA Only",
           languages: ["JavaScript"],
-          tools: ["React", "Sass"]
+          tools: ["React", "Sass"],
         },
         {
           id: 4,
@@ -67,7 +67,7 @@ function getDataFromAPI() {
           postedAt: "5d ago",
           contract: "Contract",
           location: "USA Only",
-          languages: ["CSS", "JavaScript"]
+          languages: ["CSS", "JavaScript"],
         },
         {
           id: 5,
@@ -82,7 +82,7 @@ function getDataFromAPI() {
           contract: "Full Time",
           location: "Worldwide",
           languages: ["JavaScript"],
-          tools: ["Ruby", "Sass"]
+          tools: ["Ruby", "Sass"],
         },
         {
           id: 6,
@@ -96,7 +96,7 @@ function getDataFromAPI() {
           postedAt: "2w ago",
           contract: "Full Time",
           location: "UK Only",
-          tools: ["RoR"]
+          tools: ["RoR"],
         },
         {
           id: 7,
@@ -111,7 +111,7 @@ function getDataFromAPI() {
           contract: "Full Time",
           location: "Worldwide",
           languages: ["HTML", "JavaScript"],
-          tools: ["Sass"]
+          tools: ["Sass"],
         },
         {
           id: 8,
@@ -126,7 +126,7 @@ function getDataFromAPI() {
           contract: "Full Time",
           location: "USA Only",
           languages: ["JavaScript"],
-          tools: ["Vue", "Sass"]
+          tools: ["Vue", "Sass"],
         },
         {
           id: 9,
@@ -141,7 +141,7 @@ function getDataFromAPI() {
           contract: "Full Time",
           location: "Worldwide",
           languages: ["JavaScript", "Python"],
-          tools: ["Django"]
+          tools: ["Django"],
         },
         {
           id: 10,
@@ -156,8 +156,8 @@ function getDataFromAPI() {
           contract: "Part Time",
           location: "Worldwide",
           languages: ["JavaScript"],
-          tools: ["React", "Sass"]
-        }
+          tools: ["React", "Sass"],
+        },
       ]);
     }, 1000);
   });
@@ -166,50 +166,52 @@ function getDataFromAPI() {
 function renderListings() {
   jobListingsElement.innerHTML = jobListings
     .map(
-      listing =>
-        `<div id="listing-${listing.id}" class="job-listing card${
+      (listing) =>
+        `<li id="listing-${listing.id}" class="job-listing card${
           listing.featured ? " featured" : ""
         }" data-tags="${listing.tags.join(" ")}">
-      <header class="listing-header">
+      <header class="job-listing-header">
         <img src="${listing.logo}" alt="${
           listing.company
-        }'s logo" class="company-logo" />
+        }'s logo" class="job-company-logo" />
         <div>
-          <div class="listing-details">
-            <span class="company-name">${listing.company}</span>
-            <ul class="listing-types">
+          <div class="job-listing-details">
+            <span class="job-company-name">${listing.company}</span>
+            <ul class="job-listing-types">
                 ${
                   listing.new
-                    ? `<li class="new listing-type pill">NEW!</li>`
+                    ? `<li class="new job-listing-type pill">NEW!</li>`
                     : ""
                 }
                 ${
                   listing.featured
-                    ? `<li class="featured listing-type pill">FEATURED</li>`
+                    ? `<li class="featured job-listing-type pill">FEATURED</li>`
                     : ""
                 }
             </ul>
           </div>
-          <div class="position">
-            <div class="title">${listing.position}</div>
-            <div class="details">
-              <div class="detail posted-at">${listing.postedAt}</div>
-              <div class="detail contract">${listing.contract}</div>
-              <div class="detail location">${listing.location}</div>
+          <div class="job-position">
+            <h2 class="job-title">${listing.position}</h2>
+            <div class="job-details">
+              <div class="job-detail posted-at">${listing.postedAt}</div>
+              <div class="job-detail contract">${listing.contract}</div>
+              <div class="job-detail location">${listing.location}</div>
             </div>
           </div>
         </div>
       </header>
       <hr>
-      <footer class="tags">
-      ${listing.tags.map(tag => `<a class="tag" href="#0">${tag}</a>`).join("")}
-      </footer>
-    </div>`
+      <ul class="job-tags">
+      ${listing.tags
+        .map((tag) => `<li><a class="job-tag" href="#0">${tag}</a></li>`)
+        .join("")}
+      </ul>
+    </li>`
     )
     .join("");
 
-  document.querySelectorAll(".tag").forEach(tag => {
-    tag.addEventListener("click", clickEvent => {
+  document.querySelectorAll(".job-tag").forEach((tag) => {
+    tag.addEventListener("click", (clickEvent) => {
       addFilter(clickEvent.target.innerText);
     });
   });
@@ -225,7 +227,7 @@ function addFilter(filter) {
 
   activeFilters.add(filter);
 
-  const newFilter = document.createElement("div");
+  const newFilter = document.createElement("li");
   newFilter.classList.add("filter");
   newFilter.id = `filter-${filter}`;
 
@@ -233,10 +235,11 @@ function addFilter(filter) {
   filterName.classList.add("filter-name");
   filterName.innerText = filter;
 
-  const clearFilterButton = document.createElement("a");
-  clearFilterButton.setAttribute("href", "#0");
-  clearFilterButton.classList.add("clear-filter");
-  clearFilterButton.addEventListener("click", clickEvent => {
+  const clearFilterButton = document.createElement("button");
+  clearFilterButton.innerText = "X";
+  clearFilterButton.setAttribute("aria-label", "Clear this filter");
+  clearFilterButton.classList.add("clear-filter-button");
+  clearFilterButton.addEventListener("click", (clickEvent) => {
     removeFilter(clickEvent.target.parentNode);
   });
 
@@ -248,7 +251,8 @@ function addFilter(filter) {
 
 function removeFilter(filter) {
   activeFiltersElement.removeChild(filter);
-  activeFilters.delete(filter.innerText);
+  const filterName = filter.querySelector(".filter-name").innerText;
+  activeFilters.delete(filterName);
   filterListings();
   if (!activeFilters.size) {
     filtersWrapper.classList.remove("visible");
@@ -267,14 +271,14 @@ function filterListings() {
   if (activeFilters.size === 0) {
     document
       .querySelectorAll(".job-listing")
-      .forEach(listing => (listing.style.display = "flex"));
+      .forEach((listing) => (listing.style.display = "flex"));
     return;
   }
 
-  jobListings.forEach(listing => {
+  jobListings.forEach((listing) => {
     const listingElement = document.getElementById(`listing-${listing.id}`);
     // If every filter is present in a listing's tags, then show that listing (flex)
-    if (Array.from(activeFilters).every(tag => listing.tags.includes(tag))) {
+    if (Array.from(activeFilters).every((tag) => listing.tags.includes(tag))) {
       listingElement.style.display = "flex";
     } else {
       listingElement.style.display = "none";
@@ -282,19 +286,19 @@ function filterListings() {
   });
 }
 
-getDataFromAPI().then(data => {
-  jobListings = data.map(listing => {
+getDataFromAPI().then((data) => {
+  jobListings = data.map((listing) => {
     // ES6 destructuring assignment, to avoid storing duplicate data (see return statement)
     const { tools, languages, role, level, ...listingData } = listing;
 
     const tags = [role, level];
 
     if (listing.languages) {
-      listing.languages.forEach(lang => tags.push(lang));
+      listing.languages.forEach((lang) => tags.push(lang));
     }
 
     if (listing.tools) {
-      listing.tools.forEach(tool => tags.push(tool));
+      listing.tools.forEach((tool) => tags.push(tool));
     }
 
     // Here. If we didn't destructure, we'd have unnecessary, duplicate data
@@ -305,5 +309,5 @@ getDataFromAPI().then(data => {
 });
 
 document
-  .getElementById("clear-filters")
+  .getElementById("clear-all-filters-button")
   .addEventListener("click", clearAllFilters);
